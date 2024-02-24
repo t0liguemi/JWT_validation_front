@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import "bootstrap/dist/js/bootstrap.min.js";
+import "bootstrap/dist/css/bootstrap.min.css";
+import injectContext, { Context } from "./store/context";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import singinView from "./views/signin";
+import signupView from "./views/signup";
+import Sidebar from "./components/sidebar";
+import Privateview from "./views/private";
+import PublicView from "./views/public";
 
 function App() {
+  const { store, actions } = useContext(Context);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+      <Sidebar/>
+        <Routes>
+          <Route path="/signin" Component={singinView}/>
+          <Route path="/signup" Component={signupView}/>
+          <Route path="/public/:viewID" Component={PublicView}/>
+          <Route path="/private/:viewID" Component={Privateview}/>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
 
-export default App;
+export default injectContext(App);
